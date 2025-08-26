@@ -1,0 +1,29 @@
+I can't access your actual Google Cloud project to find your specific values for GCP_PROJECT_ID, GCS_BUCKET_NAME, and JWT_SECRET_ID. I'm an AI assistant and do not have access to your personal cloud resources or any external systems.
+
+You will need to retrieve these values yourself from your Google Cloud Console.
+
+How to Find Your Values
+1. GCP_PROJECT_ID
+This is the unique identifier for your project.
+
+Go to the Google Cloud Console.
+
+In the top navigation bar, you'll see a project name and ID. Click on it to open the project selection dialog.
+
+Your project ID will be listed there.
+
+2. GCS_BUCKET_NAME
+This is the name of the Cloud Storage bucket you created for this project.
+
+In the Cloud Console, navigate to the Cloud Storage section.
+
+Click on Buckets.
+
+The names of all your buckets will be listed. Use the name of the bucket you intend to use for the filesystem.
+
+3. JWT_SECRET_ID
+This is the name of the secret you created in Secret Manager to store your JWT key.
+
+In the Cloud Console, go to Secret Manager.
+
+You will see a list of all your secrets. The JWT_SECRET_ID is the name you gave to the secret that holds the key for signing your JWT tokens.

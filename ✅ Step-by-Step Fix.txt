@@ -1,0 +1,222 @@
+✅ Step-by-Step Fix
+🔧 Step 1: Open Terminal in VS Code
+Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick) in VS Code, or go to Terminal > New Terminal.
+
+📦 Step 2: Install Missing Libraries
+Run this full command in your terminal:
+
+bash
+Copy
+Edit
+pip install boto3 botocore PyJWT flask cachetools requests fusepy
+If you get errors like "pip is not recognized", try using:
+
+bash
+Copy
+Edit
+python -m pip install ...
+🧠 Note:
+jwt → Comes from the PyJWT package
+
+fuse → Comes from fusepy
+
+You must be connected to the internet for these installations.
+
+🧪 Step 3: Verify Installation
+Run:
+
+bash
+Copy
+Edit
+pip list
+Check that these packages appear in the list:
+
+boto3
+
+botocore
+
+PyJWT
+
+Flask
+
+cachetools
+
+requests
+
+fusepy
+
+⚙️ Step 4: Restart VS Code & Select Correct Interpreter
+Press <kbd>Ctrl+Shift+P</kbd> → Type: Python: Select Interpreter
+
+Choose the one that includes the packages you installed (often ends in ...venv\Scripts\python.exe or similar).
+
+✅ Done
+Once installed and the interpreter is correctly set, Pylance errors should disappear.
+
+Let me know if you're using a virtual environment, or if you get any installation errors — especially for fusepy (which can require special handling on Windows).
+
+
+
+You said:
+OS error unable to lib fuse
+
+ChatGPT said:
+Searching the web...
+
+Thanks for the update.
+
+🔍 You're seeing this:
+OSError: unable to load libfuse
+
+This is a common issue when your system doesn’t have the FUSE (Filesystem in Userspace) library available, or the Python package (like fusepy) can’t find it.
+
+✅ What You Need to Do (Based on OS)
+🪟 If you're on Windows:
+FUSE is not supported natively, but here's what you can do:
+
+🔧 Option 1: Install WinFsp
+WinFsp is a Windows-compatible alternative to FUSE that works with fusepy.
+
+Steps:
+Download WinFsp
+👉 https://winfsp.dev/rel/
+
+Install it (accept default options)
+
+Restart VS Code / your computer
+
+Ensure your Python project is using fusepy.
+
+Try running the code again.
+
+💡 Option 2: Use WSL (Windows Subsystem for Linux)
+If your project depends heavily on native FUSE features:
+
+Open PowerShell as Administrator
+
+Install WSL:
+
+powershell
+Copy
+Edit
+wsl --install
+This installs Ubuntu and sets it up.
+
+Inside WSL (Ubuntu terminal):
+
+bash
+Copy
+Edit
+sudo apt update
+sudo apt install fuse
+Move your Python code into WSL and run it there.
+
+🍎 If you're on macOS:
+Install FUSE using Homebrew:
+
+bash
+Copy
+Edit
+brew install macfuse
+🐧 If you're on Linux (Ubuntu/Debian):
+Just run:
+
+bash
+Copy
+Edit
+sudo apt install fuse
+If you're using a different Linux distro, let me know.
+
+❗ Still Not Working?
+If you’ve done all this and still get the error:
+
+Let me know which OS you are using
+
+Share the full traceback or error message
+
+Show how you're importing or using FUSE (fusepy)
+
+That way, I can give more specific help.
+
+
+
+
+
+For Windows:
+Open Command Prompt or PowerShell and run these commands, replacing the placeholder values with your actual AWS resource names.
+
+Bash
+
+set IMAGE_BUCKET_NAME="your-s3-bucket-name"
+set DEVICE_TABLE_NAME="your-dynamodb-table-name"
+set CLOUDROM_SECRET_ARN="arn:aws:secretsmanager:your-region:your-account-id:secret:your-secret-name"
+After running these, execute your Python script from the same terminal window.
+
+
+
+Creating AWS resources can be done through the AWS Management Console, which is a web-based interface. Here are the step-by-step instructions for creating the three specific resources your Python script needs: an S3 bucket, a DynamoDB table, and a Secrets Manager secret.
+
+1. Create an S3 Bucket
+Sign in to the AWS Management Console.
+
+In the search bar at the top, type S3 and select it from the results.
+
+Click the Create bucket button.
+
+General configuration:
+
+AWS Region: Choose a region that is geographically close to you.
+
+Bucket name: Enter a globally unique name for your bucket. It must be lowercase, without spaces or underscores. This will be your IMAGE_BUCKET_NAME.
+
+Object Ownership: Leave the default setting, "ACLs disabled".
+
+Block Public Access settings for this bucket: Leave "Block all public access" checked (this is the default and a best practice for security).
+
+Click Create bucket.
+
+2. Create a DynamoDB Table
+In the AWS Management Console, search for DynamoDB and select it.
+
+In the navigation pane on the left, select Tables, then click Create table.
+
+Table details:
+
+Table name: Enter a name for your table. This will be your DEVICE_TABLE_NAME.
+
+Partition key: This is the primary key that uniquely identifies an item. Enter device_id as the key name and choose String as its data type. This matches the logic in your script.
+
+Table settings:
+
+Choose On-demand capacity mode. This is a good choice for unpredictable workloads as you only pay for what you use.
+
+Click Create table.
+
+3. Create a Secrets Manager Secret
+
+
+In the AWS Management Console, search for Secrets Manager and select it.
+
+Click the Store a new secret button.
+
+Choose secret type:
+
+Select Other type of secret.
+
+In the Key/value pairs section, you can enter your secret. A common approach is to store a key-value pair for a JWT_SECRET_KEY.
+
+Key: JWT_SECRET_KEY
+
+Value: Generate a strong, random string of characters to use as your secret key. You can use a password generator or any secure method to create this value.
+
+Click Next.
+
+Configure secret:
+
+Secret name: Enter a descriptive name for your secret. This will be used to get the ARN (CLOUDROM_SECRET_ARN).
+
+Click Next twice to skip the rotation and review pages.
+
+Click Store.
+
+After the secret is created, click on its name to open its details page. Copy the Secret ARN from this page. This is the value you will use for CLOUDROM_SECRET_ARN.
